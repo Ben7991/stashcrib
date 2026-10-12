@@ -1,0 +1,28 @@
+.sc-new-week {
+  padding-bottom: 88px;
+}
+
+.sc-new-week__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.sc-new-week__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+@media (max-width: 1100px) {
+  .sc-new-week__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .sc-new-week__grid {
+    grid-template-columns: 1fr;
+  }
+}

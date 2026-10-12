@@ -1,0 +1,13 @@
+.sc-product-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  max-width: 760px;
+}
+
+.sc-product-gallery__image {
+  aspect-ratio: 374 / 498;
+  background-color: var(--color-surface);
+  background-position: center;
+  background-size: cover;
+}
