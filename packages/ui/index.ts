@@ -1,2 +1,10 @@
-export * from "./components";
-export * from "./data/catalog";
+// atoms
+
+// molecules
+
+// organisms
+
+// templates
+
+// layouts
+export { Button } from './src/components/atoms/button/Button'
