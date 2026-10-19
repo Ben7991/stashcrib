@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap');
 
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 
 @source "../**/*.{ts,tsx}";
 
@@ -130,6 +130,7 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-schibsted-grotesk);
   }
 
   html {
@@ -143,4 +144,17 @@
 
 .font-schibsted-grotesk {
   font-family: var(--font-schibsted-grotesk);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #161616;
+}
+
+body {
+  color: #5e5e5e;
 }
