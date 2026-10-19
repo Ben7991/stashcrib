@@ -20,8 +20,8 @@ This project uses [Turborepo](https://turbo.build) with npm workspaces.
 
 | Path | Role |
 |------|------|
-| [`apps/web`](apps/web) | Customer-facing React app (Vite): routes and page composition |
-| [`packages/ui`](packages/ui) | Shared components, design tokens, and catalog types/data |
+| [`apps/web`](apps/web) | Customer-facing Next.js app: routes and page composition |
+| [`packages/ui`](packages/ui) | Shared shadcn/ui components, theme (`globals.css`), and design system |
 | [`packages/eslint-config`](packages/eslint-config) | Shared ESLint configuration |
 | [`packages/typescript-config`](packages/typescript-config) | Shared TypeScript `tsconfig` bases |
 

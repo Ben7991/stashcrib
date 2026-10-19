@@ -1,2 +1,13 @@
-export * from "./components";
-export * from "./data/catalog";
+// atoms
+export { Button } from './src/components/atoms/button/Button'
+export { Grid } from './src/components/atoms/grid/Grid'
+
+// molecules
+export { AppLogo } from './src/components/molecules/app-logo/AppLogo'
+
+// organisms
+
+// templates
+
+// layouts
+export { Shop } from './src/components/layouts/shop/Shop'
