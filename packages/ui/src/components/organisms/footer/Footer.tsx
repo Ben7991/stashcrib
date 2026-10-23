@@ -38,7 +38,7 @@ export function Footer(): React.JSX.Element {
               <div className="flex justify-between">
                 <ul className="list-none space-y-1">
                   {FIRST_SHOP_LINKS.map((item) => (
-                    <li>
+                    <li key={item}>
                       <Link
                         href={`/products?category=${item.split(' ').join('-').toLowerCase()}`}
                       >
@@ -49,7 +49,7 @@ export function Footer(): React.JSX.Element {
                 </ul>
                 <ul className="list-none space-y-1">
                   {SECOND_SHOP_LINKS.map((item) => (
-                    <li>
+                    <li key={item}>
                       <Link
                         href={`/products?category=${item.split(' ').join('-').toLowerCase()}`}
                       >
@@ -60,7 +60,7 @@ export function Footer(): React.JSX.Element {
                 </ul>
                 <ul className="list-none space-y-1">
                   {THIRD_SHOP_LINKS.map((item) => (
-                    <li>
+                    <li key={item}>
                       <Link
                         href={`/products?category=${item.split(' ').join('-').toLowerCase()}`}
                       >
