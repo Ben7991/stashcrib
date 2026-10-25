@@ -1,15 +1,12 @@
-import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import type { Swiper as SwiperType } from "swiper/types";
+
 import { ChevronLeft, ChevronRight, Minus } from "lucide-react";
 import { cn } from "cn";
 
 import css from "./Hero.module.css";
-import { products } from "./Hero.utils";
+import { products, SLIDE_DURATION_MS } from "./Hero.data";
 import { Headline } from "../../atoms/headline/Headline";
-
-const SLIDE_DURATION_MS = 5000;
-const WIDE_SCREEN_QUERY = "(min-width: 768px)";
+import { useHeroSlides } from "./Hero.hooks";
 
 export function Hero(): React.JSX.Element {
   return (
@@ -18,58 +15,6 @@ export function Hero(): React.JSX.Element {
       <WideScreen />
     </article>
   );
-}
-
-function useHeroSlides(variant: "small" | "wide") {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [autoplay, setAutoplay] = useState(true);
-  const swiperRef = useRef<SwiperType | null>(null);
-
-  useEffect(() => {
-    const widthQuery = window.matchMedia(WIDE_SCREEN_QUERY);
-    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-    const update = () => {
-      const visible =
-        variant === "wide" ? widthQuery.matches : !widthQuery.matches;
-      setAutoplay(visible && !motionQuery.matches);
-    };
-
-    update();
-    widthQuery.addEventListener("change", update);
-    motionQuery.addEventListener("change", update);
-
-    return () => {
-      widthQuery.removeEventListener("change", update);
-      motionQuery.removeEventListener("change", update);
-    };
-  }, [variant]);
-
-  useEffect(() => {
-    if (!autoplay) return;
-
-    const timeoutId = window.setTimeout(() => {
-      const swiper = swiperRef.current;
-      if (!swiper) return;
-
-      const nextIndex = (swiper.activeIndex + 1) % products.length;
-      swiper.slideTo(nextIndex, nextIndex === 0 ? 0 : undefined);
-    }, SLIDE_DURATION_MS);
-
-    return () => window.clearTimeout(timeoutId);
-  }, [activeIndex, autoplay]);
-
-  return {
-    activeIndex,
-    autoplay,
-    swiperRef,
-    onBeforeInit: (swiper: SwiperType) => {
-      swiperRef.current = swiper;
-    },
-    onSlideChange: (swiper: SwiperType) => {
-      setActiveIndex(swiper.activeIndex);
-    },
-  };
 }
 
 function SmallScreen(): React.JSX.Element {
