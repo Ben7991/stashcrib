@@ -13,11 +13,11 @@ import { Send } from 'lucide-react';
 
 export function Footer(): React.JSX.Element {
   return (
-    <footer className="text-[0.8125em] border-t border-t-gray-200 pt-4">
+    <footer className="text-[0.8125em] border-t border-t-gray-200">
       <Grid>
-        <Grid.Container>
-          <Grid.Row>
-            <Grid.Col className="md:basis-1/3 md:pe-4">
+        <Grid.Container className="py-10">
+          <Grid.Row className="gap-8 md:gap-0">
+            <Grid.Col className="basis-full md:basis-1/3 md:pe-4">
               <div className="mb-4">
                 <AppLogo />
               </div>
@@ -31,7 +31,7 @@ export function Footer(): React.JSX.Element {
                 all your fashion needs.
               </p>
             </Grid.Col>
-            <Grid.Col className="md:basis-1/3 md:px-4">
+            <Grid.Col className="basis-full md:basis-1/3 md:px-4">
               <Headline tag="h5" className="text-[#161616] mb-4">
                 Shop
               </Headline>
@@ -71,7 +71,7 @@ export function Footer(): React.JSX.Element {
                 </ul>
               </div>
             </Grid.Col>
-            <Grid.Col className="md:basis-1/3 md:ps-4">
+            <Grid.Col className="basis-full md:basis-1/3 md:ps-4">
               <Headline tag="h4" className="mb-3">
                 Get notified for new arrivals.
               </Headline>
