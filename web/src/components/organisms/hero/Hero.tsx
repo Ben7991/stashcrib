@@ -32,12 +32,11 @@ function SmallScreen(): React.JSX.Element {
         >
           {products.map((product) => (
             <SwiperSlide key={product.name}>
-              <div className="">
+              <div className="h-full">
                 <img
                   src={product.imagePath}
                   alt={product.name}
-                  width={425}
-                  height={350}
+                  className="w-full h-full"
                 />
               </div>
             </SwiperSlide>
@@ -92,16 +91,15 @@ function WideScreen(): React.JSX.Element {
           spaceBetween={2}
           onBeforeInit={onBeforeInit}
           onSlideChange={onSlideChange}
-          className="w-full"
+          className="w-full h-full"
         >
           {products.map((product) => (
             <SwiperSlide key={product.name}>
-              <div className="relative w-full h-125">
+              <div className="w-full h-full">
                 <img
                   src={product.imagePath}
                   alt={product.name}
-                  sizes="50%"
-                  className="object-cover absolute"
+                  className="w-full h-full object-cover"
                 />
               </div>
             </SwiperSlide>
@@ -156,11 +154,11 @@ function WideScreen(): React.JSX.Element {
                 autoplay={autoplay}
               />
               <div className="flex flex-col xl:flex-row xl:items-center gap-1.25 xl:gap-2.5">
-                <div className="relative h-18.5 xl:w-1/2">
+                <div className="xl:w-1/2">
                   <img
                     src={product.imagePath}
                     alt={product.name}
-                    className="object-cover absolute"
+                    className="object-cover block"
                     sizes="100%"
                   />
                 </div>
