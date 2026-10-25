@@ -1,14 +1,18 @@
 'use client';
 
-import { act, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper/types';
 import { ChevronLeft, ChevronRight, Minus } from 'lucide-react';
+import { cn } from 'cn';
 
+import css from './Hero.module.css';
 import { products } from './Hero.utils';
 import { Headline } from '../../atoms/headline/Headline';
-import { cn } from 'cn';
+
+const SLIDE_DURATION_MS = 5000;
+const WIDE_SCREEN_QUERY = '(min-width: 768px)';
 
 export function Hero(): React.JSX.Element {
   return (
@@ -19,8 +23,61 @@ export function Hero(): React.JSX.Element {
   );
 }
 
-function SmallScreen(): React.JSX.Element {
+function useHeroSlides(variant: 'small' | 'wide') {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [autoplay, setAutoplay] = useState(true);
+  const swiperRef = useRef<SwiperType | null>(null);
+
+  useEffect(() => {
+    const widthQuery = window.matchMedia(WIDE_SCREEN_QUERY);
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    const update = () => {
+      const visible =
+        variant === 'wide' ? widthQuery.matches : !widthQuery.matches;
+      setAutoplay(visible && !motionQuery.matches);
+    };
+
+    update();
+    widthQuery.addEventListener('change', update);
+    motionQuery.addEventListener('change', update);
+
+    return () => {
+      widthQuery.removeEventListener('change', update);
+      motionQuery.removeEventListener('change', update);
+    };
+  }, [variant]);
+
+  useEffect(() => {
+    if (!autoplay) return;
+
+    const timeoutId = window.setTimeout(() => {
+      const swiper = swiperRef.current;
+      if (!swiper) return;
+
+      const nextIndex = (swiper.activeIndex + 1) % products.length;
+      swiper.slideTo(nextIndex, nextIndex === 0 ? 0 : undefined);
+    }, SLIDE_DURATION_MS);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [activeIndex, autoplay]);
+
+  return {
+    activeIndex,
+    autoplay,
+    swiperRef,
+    onBeforeInit: (swiper: SwiperType) => {
+      swiperRef.current = swiper;
+    },
+    onSlideChange: (swiper: SwiperType) => {
+      setActiveIndex(swiper.activeIndex);
+    },
+  };
+}
+
+function SmallScreen(): React.JSX.Element {
+  const { activeIndex, autoplay, onBeforeInit, onSlideChange } =
+    useHeroSlides('small');
 
   return (
     <div className="md:hidden">
@@ -28,7 +85,8 @@ function SmallScreen(): React.JSX.Element {
         <Swiper
           slidesPerView={1.12}
           spaceBetween={2}
-          onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+          onBeforeInit={onBeforeInit}
+          onSlideChange={onSlideChange}
         >
           {products.map((product) => (
             <SwiperSlide key={product.name}>
@@ -49,6 +107,7 @@ function SmallScreen(): React.JSX.Element {
               <ProgressBar
                 index={index}
                 activeIndex={activeIndex}
+                autoplay={autoplay}
                 key={product.name}
               />
             ))}
@@ -80,19 +139,17 @@ function SmallScreen(): React.JSX.Element {
 }
 
 function WideScreen(): React.JSX.Element {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const swiperRef = useRef<SwiperType>(null);
+  const { activeIndex, autoplay, swiperRef, onBeforeInit, onSlideChange } =
+    useHeroSlides('wide');
 
   return (
     <div className="hidden md:flex">
       <div className="min-w-0 md:basis-[calc(100vw-50%)]">
         <Swiper
-          slidesPerView={1.12}
+          slidesPerView={1}
           spaceBetween={2}
-          onBeforeInit={(swiper: SwiperType): void => {
-            swiperRef.current = swiper;
-          }}
-          onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+          onBeforeInit={onBeforeInit}
+          onSlideChange={onSlideChange}
           className="w-full"
         >
           {products.map((product) => (
@@ -110,9 +167,9 @@ function WideScreen(): React.JSX.Element {
           ))}
         </Swiper>
       </div>
-      <div className="md:basis-1/2 md:p-4 lg:p-6 xl:p-8 md:space-y-15 lg:space-y-12 xl:space-y-15 flex flex-col justify-between">
+      <div className="md:basis-1/2 md:p-4 lg:p-6 xl:p-8 md:space-y-10 lg:space-y-8 xl:space-y-15 flex flex-col justify-between">
         <div className="flex items-center justify-between">
-          <strong className="text-black font-light">
+          <strong className="font-light text-black">
             {(activeIndex + 1).toString().padStart(2, '0')}{' '}
             {products[activeIndex].name.toUpperCase()}
           </strong>
@@ -141,7 +198,7 @@ function WideScreen(): React.JSX.Element {
             </div>
           </div>
         </div>
-        <div className="space-y-7 xl:space-y-3">
+        <div className="space-y-7 md:space-y-3">
           <Headline tag="h1">{products[activeIndex].headline}</Headline>
           <p>{products[activeIndex].description}</p>
           <button className="inline-flex gap-1 px-5 py-3.25 bg-black text-white">
@@ -152,13 +209,13 @@ function WideScreen(): React.JSX.Element {
           {products.map((product, index) => (
             <div className="basis-1/4 flex flex-col gap-3" key={product.name}>
               <ProgressBar
-                key={product.name}
                 index={index}
                 className="w-full"
                 activeIndex={activeIndex}
+                autoplay={autoplay}
               />
               <div className="flex flex-col xl:flex-row xl:items-center gap-1.25 xl:gap-2.5">
-                <div className="relative xl:w-1/2 h-18.5">
+                <div className="relative h-18.5 xl:w-1/2">
                   <Image
                     src={product.imagePath}
                     alt={product.name}
@@ -185,6 +242,7 @@ function WideScreen(): React.JSX.Element {
 type ProgressBarProps = {
   index: number;
   activeIndex: number;
+  autoplay: boolean;
   className?: string;
 };
 
@@ -192,11 +250,30 @@ function ProgressBar({
   index,
   className,
   activeIndex,
+  autoplay,
 }: ProgressBarProps): React.JSX.Element {
+  const isActive = index === activeIndex;
+  const isComplete = index < activeIndex;
+  const animate = isActive && autoplay;
+  const filled = isComplete || (isActive && !autoplay);
+
   return (
-    <div className={cn('w-3/12 h-0.75 bg-gray-400/50', className)}>
+    <div
+      className={cn('h-0.75 w-3/12 overflow-hidden bg-gray-400/50', className)}
+      aria-hidden="true"
+    >
       <div
-        className={`w-1/2 h-full ${index === activeIndex ? 'bg-black' : ''}`}
+        key={animate ? `run-${activeIndex}` : `fill-${index}`}
+        className={cn(
+          'h-full w-full origin-left bg-black',
+          animate && css['hero-progress'],
+        )}
+        style={{
+          transform: filled ? 'scaleX(1)' : 'scaleX(0)',
+          ...(animate
+            ? { animationDuration: `${SLIDE_DURATION_MS}ms` }
+            : undefined),
+        }}
       />
     </div>
   );
