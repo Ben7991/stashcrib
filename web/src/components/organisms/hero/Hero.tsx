@@ -84,7 +84,7 @@ function WideScreen(): React.JSX.Element {
     useHeroSlides("wide");
 
   return (
-    <div className="hidden md:flex">
+    <div className="hidden md:flex border-b border-b-gray-300">
       <div className="min-w-0 md:basis-[calc(100vw-50%)]">
         <Swiper
           slidesPerView={1}
@@ -141,7 +141,7 @@ function WideScreen(): React.JSX.Element {
           <Headline tag="h1">{products[activeIndex].headline}</Headline>
           <p>{products[activeIndex].description}</p>
           <button className="inline-flex gap-1 px-5 py-3.25 bg-black text-white">
-            Shop now <Minus /> ${products[activeIndex].price}
+            Shop now <Minus /> &#8373;{products[activeIndex].price}
           </button>
         </div>
         <div className="flex items-center justify-between gap-2.5 xl:gap-5">
