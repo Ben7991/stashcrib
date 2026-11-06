@@ -8,8 +8,8 @@ export default function ProductsPage() {
   return (
     <Shop>
       <main>
-        <header className="border-b border-border flex justify-between px-15 items-center">
-          <div className="pt-5">
+        <header className="flex flex-col items-start gap-5 border-b border-border px-4 py-6 sm:px-6 md:flex-row md:items-end md:justify-between lg:px-15">
+          <div>
             <nav aria-label="Breadcrumb">
               <ol className="flex items-center gap-2 text-sm text-muted-foreground">
                 <li>
@@ -27,64 +27,68 @@ export default function ProductsPage() {
               </ol>
             </nav>
 
-            <h1 className="font-newsreader text-4xl font-medium leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+            <h1 className="mt-3 font-newsreader text-4xl font-medium leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl">
               New arrivals
             </h1>
           </div>
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
+          <p className="max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base md:max-w-sm lg:max-w-xl">
             Eighteen pieces in wool, cotton drill, and merino. Added every
             Thursday.
           </p>
         </header>
 
-        <div className="flex justify-between mx-15 my-2">
-          <ol className="flex gap-4">
+        <section
+          aria-label="Product controls"
+          className="mx-4 my-4 space-y-3 sm:mx-6 md:my-5 lg:mx-15"
+        >
+          <ol className="flex gap-2 overflow-x-auto pb-1 sm:gap-3">
             <li>
-              <Button size="lg" className="rounded-none">
+              <Button size="sm" className="rounded-none">
                 All
               </Button>
             </li>
             <li>
-              <Button variant="secondary" size="lg" className="rounded-none">
+              <Button variant="secondary" size="sm" className="rounded-none">
                 Outerwear
               </Button>
             </li>
             <li>
-              <Button variant="secondary" size="lg" className="rounded-none">
+              <Button variant="secondary" size="sm" className="rounded-none">
                 Shirting
               </Button>
             </li>
             <li>
-              <Button variant="secondary" size="lg" className="rounded-none">
+              <Button variant="secondary" size="sm" className="rounded-none">
                 Knitwear
               </Button>
             </li>
           </ol>
-          <ol className="flex gap-4">
-            <li>
-              <Button variant="ghost">Cloth</Button>
-            </li>
-            <li>
-              <Button variant="ghost">Size</Button>
-            </li>
-            <li>
-              <Button variant="ghost">Price</Button>
-            </li>
-          </ol>
 
-          <ol>
-            <li className="flex gap-2">
-              <Button className="rounded-none" variant="secondary">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <ol className="flex flex-wrap gap-1 sm:gap-2">
+              <li>
+                <Button variant="ghost" size="sm">Cloth</Button>
+              </li>
+              <li>
+                <Button variant="ghost" size="sm">Size</Button>
+              </li>
+              <li>
+                <Button variant="ghost" size="sm">Price</Button>
+              </li>
+            </ol>
+
+            <div className="flex items-center gap-1 sm:gap-2">
+              <Button className="rounded-none" variant="secondary" size="sm">
                 Sort
               </Button>
-              <Button variant="ghost">Newest</Button>
-            </li>
-          </ol>
-        </div>
+              <Button variant="ghost" size="sm">Newest</Button>
+            </div>
+          </div>
+        </section>
 
         <Grid>
-          <Grid.Container className="py-8">
-            <Grid.Row className="-mx-2">
+          <Grid.Container className="py-5 sm:py-8">
+            <Grid.Row className="-mx-1.5 sm:-mx-2">
               {[
                 {
                   name: "Wool field coat",
@@ -132,7 +136,7 @@ export default function ProductsPage() {
               ].map((product, index) => (
                 <Grid.Col
                   key={`${product.name}-${index}`}
-                  className="mb-6 w-full px-2 sm:w-1/2 lg:w-1/4"
+                  className="mb-5 w-1/2 px-1.5 sm:mb-6 sm:px-2 md:w-1/3 lg:w-1/4"
                 >
                   <Card className="overflow-hidden border-border rounded-none">
                     <img
@@ -141,11 +145,13 @@ export default function ProductsPage() {
                       className="aspect-[4/5] w-full object-cover !rounded-none"
                     />
                     <Card.Header>
-                      <Card.Title className="text-sm font-normal">{product.name}</Card.Title>
-                      <Card.Action className="font-medium">
+                      <Card.Title className="text-xs font-normal sm:text-sm">
+                        {product.name}
+                      </Card.Title>
+                      <Card.Action className="text-xs font-medium sm:text-sm">
                         {product.price}
                       </Card.Action>
-                      <Card.Description>
+                      <Card.Description className="text-xs sm:text-sm">
                         {product.description}
                       </Card.Description>
                     </Card.Header>
@@ -155,8 +161,13 @@ export default function ProductsPage() {
             </Grid.Row>
           </Grid.Container>
         </Grid>
-        <div className="flex justify-center p-5">
-          <Button variant="outline" className="border-black rounded-none">Show 12 more</Button>
+        <div className="flex justify-center px-4 py-5 sm:py-8">
+          <Button
+            variant="outline"
+            className="w-full max-w-xs rounded-none border-black sm:w-auto"
+          >
+            Show 12 more
+          </Button>
         </div>
       </main>
     </Shop>
