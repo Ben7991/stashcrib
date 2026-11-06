@@ -8,10 +8,17 @@ const LandingPage = lazy(
   () => import("./pages/client-facing/landing-page/LandingPage"),
 );
 
+const ProductsPage = lazy(
+  () => import("./pages/client-facing/products/ProductsPage"),
+);
+
 export const appRouter = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
-    children: [{ index: true, element: <LandingPage /> }],
+    children: [
+      { index: true, element: <LandingPage /> },
+      { path: "products", element: <ProductsPage /> },
+    ],
   },
 ]);
