@@ -8,7 +8,7 @@ export default function ProductsPage() {
   return (
     <Shop>
       <main>
-        <header className="flex flex-col items-start gap-5 border-b border-border px-4 py-6 sm:px-6 md:flex-row md:items-end md:justify-between lg:px-15">
+        <header className="flex flex-col items-center gap-5 border-b border-border px-4 py-6 sm:px-6 md:flex-row md:justify-between lg:px-15">
           <div>
             <nav aria-label="Breadcrumb">
               <ol className="flex items-center gap-2 text-sm text-muted-foreground">
